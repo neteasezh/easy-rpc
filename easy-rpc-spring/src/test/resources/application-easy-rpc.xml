@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+		    http://www.springframework.org/schema/beans
+		    http://www.springframework.org/schema/beans/spring-beans.xsd
+	    ">
+
+	<bean id="springReader" class="com.github.youzan.httpfetch.reader.SpringReader" >
+		<property name="chains" >
+			<list>
+				<bean class="com.github.youzan.httpfetch.bookworm.chains.BookWormTokenChain" />
+			</list>
+		</property>
+		<property name="convertors">
+			<list>
+			</list>
+		</property>
+		<property name="parameterResolvers">
+			<list>
+			</list>
+		</property>
+		<property name="urlAlias">
+			<map>
+				<entry key="mbostockApi.getUsCongress" value="${mock.host}/mbostock/raw/4090846/us-congress-113.json" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="httpApiConfiguration" class="com.github.youzan.httpfetch.http.HttpApiConfiguration" init-method="init">
+		<property name="sourceReaders">
+			<list>
+				<ref bean="springReader" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="httpApiService" class="com.github.youzan.httpfetch.http.HttpApiService" init-method="init">
+		<constructor-arg index="0" ref="httpApiConfiguration" />
+	</bean>
+
+	<bean class="com.github.youzan.httpfetch.spring.HttpApiScannerConfigurer">
+		<property name="basePackage" value="com.github.youzan.httpfetch.bookworm.api,com.github.youzan.httpfetch.mbostock.api,com.github.youzan.httpfetch.youzan.api" />
+	</bean>
+
+</beans>
