@@ -1,46 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
 		    http://www.springframework.org/schema/beans
 		    http://www.springframework.org/schema/beans/spring-beans.xsd
 	    ">
 
-	<bean id="springReader" class="com.github.youzan.httpfetch.reader.SpringReader" >
-		<property name="chains" >
-			<list>
-				<bean class="com.github.youzan.httpfetch.bookworm.chains.BookWormTokenChain" />
-			</list>
-		</property>
-		<property name="convertors">
-			<list>
-			</list>
-		</property>
-		<property name="parameterResolvers">
-			<list>
-			</list>
-		</property>
-		<property name="urlAlias">
-			<map>
-				<entry key="mbostockApi.getUsCongress" value="${mock.host}/mbostock/raw/4090846/us-congress-113.json" />
-			</map>
-		</property>
-	</bean>
+    <!--基础配置-->
+    <bean id="easyRpcProperties" class="com.netease.easy.rpc.core.config.EasyRpcProperties">
+        <property name="connectTimeout" value="1000"/>
+        <property name="serverPort" value="9999"/>
+    </bean>
 
-	<bean id="httpApiConfiguration" class="com.github.youzan.httpfetch.http.HttpApiConfiguration" init-method="init">
-		<property name="sourceReaders">
-			<list>
-				<ref bean="springReader" />
-			</list>
-		</property>
-	</bean>
+    <!--netty客户端连接池-->
+    <bean id="easyRpcClientPool" class="com.netease.easy.rpc.core.netty.tcp.pool.EasyRpcClientPool">
+        <constructor-arg index="0" ref="easyRpcProperties"/>
+    </bean>
 
-	<bean id="httpApiService" class="com.github.youzan.httpfetch.http.HttpApiService" init-method="init">
-		<constructor-arg index="0" ref="httpApiConfiguration" />
-	</bean>
+    <!--服务注册-->
+	<bean id = "serviceProviderInstanceRegistry" class="com.netease.easy.rpc.spring.config.AnnotationServiceProviderInstanceRegistry"/>
 
-	<bean class="com.github.youzan.httpfetch.spring.HttpApiScannerConfigurer">
-		<property name="basePackage" value="com.github.youzan.httpfetch.bookworm.api,com.github.youzan.httpfetch.mbostock.api,com.github.youzan.httpfetch.youzan.api" />
-	</bean>
+    <!--netty服务端-->
+    <bean id="easyRpcServer" class="com.netease.easy.rpc.core.netty.tcp.server.EasyRpcServer" init-method="init">
+        <constructor-arg index="0" ref="serviceProviderInstanceRegistry"/>
+        <property name="properties" ref="easyRpcProperties"/>
+    </bean>
+
+
+    <bean id="easyRpcInvoker" class="com.netease.easy.rpc.core.proxy.EasyRpcInvoker">
+        <property name="pool" ref="easyRpcClientPool"/>
+    </bean>
+
+    <bean class="com.netease.HelloServiceImpl"/>
+
+    <bean id="easyRpcScannerConfigure" class="com.netease.easy.rpc.spring.config.EasyRpcScannerConfigurer">
+        <property name="basePackage" value="com.netease,com.netease.rpc"/>
+    </bean>
 
 </beans>

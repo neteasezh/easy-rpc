@@ -1,16 +1,13 @@
-package com.netease.easy.rpc.core.netty;
+package com.netease.easy.rpc.core.netty.base;
 
 import com.netease.easy.rpc.core.bean.EasyRpcRequest;
 import com.netease.easy.rpc.core.bean.EasyRpcResponse;
-import com.netease.easy.rpc.core.bean.EasyRpcResponseFuture;
 import com.netease.easy.rpc.core.config.EasyRpcProperties;
-import com.netease.easy.rpc.core.exception.EasyRpcException;
 import com.netease.easy.rpc.core.netty.tcp.client.EasyRpcClient;
-import com.netease.easy.rpc.core.netty.tcp.manage.registries.EasyRpcResponseFutureRegistry;
 import io.netty.channel.Channel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * @author zhuhai
@@ -39,22 +36,7 @@ public abstract class AbstractEasyRpcClient {
      * @param timeout
      * @return
      */
-    public EasyRpcResponse sendRequest(EasyRpcRequest request, long timeout) {
-        String requestId = request.getRequestId();
-        EasyRpcResponseFuture responseFuture = new EasyRpcResponseFuture(request);
-        EasyRpcResponseFutureRegistry.addResponseFuture(requestId, responseFuture);
-        try {
-            if (!isActive()) {
-                throw new EasyRpcException("rpc client is not active");
-            }
-            this.channel.writeAndFlush(request).sync();
-            return responseFuture.get(timeout, TimeUnit.MILLISECONDS);
-        } catch (Throwable e) {
-            throw new EasyRpcException("send request error");
-        } finally {
-            EasyRpcResponseFutureRegistry.removeResponseFuture(requestId);
-        }
-    }
+    public abstract EasyRpcResponse sendRequest(EasyRpcRequest request, Long timeout);
 
     /**
      * 初始化eventLoopGroup

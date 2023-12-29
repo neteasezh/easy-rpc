@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhuhai
  * @date 2023/12/20
  */
-public class ServiceProviderRegistry {
+public class ServiceProviderInstanceRegistry {
     /**
      * 服务提供者类的全限定名: 服务提供者实例
      * spring容器启动时，将所有的服务提供者注册到该map中

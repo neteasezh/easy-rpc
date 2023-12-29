@@ -1,4 +1,4 @@
-package com.netease.easy.rpc.core.netty;
+package com.netease.easy.rpc.core.netty.base;
 
 import com.netease.easy.rpc.core.bean.HeartBeat;
 import io.netty.channel.ChannelHandlerContext;

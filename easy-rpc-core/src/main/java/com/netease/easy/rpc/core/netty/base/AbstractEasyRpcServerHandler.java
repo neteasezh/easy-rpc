@@ -1,9 +1,9 @@
-package com.netease.easy.rpc.core.netty;
+package com.netease.easy.rpc.core.netty.base;
 
 import com.netease.easy.rpc.core.bean.EasyRpcRequest;
 import com.netease.easy.rpc.core.bean.EasyRpcResponse;
 import com.netease.easy.rpc.core.exception.EasyRpcException;
-import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderRegistry;
+import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderInstanceRegistry;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -21,11 +21,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 public abstract class AbstractEasyRpcServerHandler<T> extends SimpleChannelInboundHandler<T> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractEasyRpcServerHandler.class);
     protected final ThreadPoolExecutor threadPoolExecutor;
-    protected final ServiceProviderRegistry serviceProviderRegistry;
+    protected final ServiceProviderInstanceRegistry serviceProviderInstanceRegistry;
 
-    protected AbstractEasyRpcServerHandler(ThreadPoolExecutor threadPoolExecutor, ServiceProviderRegistry serviceProviderRegistry) {
+    protected AbstractEasyRpcServerHandler(ThreadPoolExecutor threadPoolExecutor, ServiceProviderInstanceRegistry serviceProviderInstanceRegistry) {
         this.threadPoolExecutor = threadPoolExecutor;
-        this.serviceProviderRegistry = serviceProviderRegistry;
+        this.serviceProviderInstanceRegistry = serviceProviderInstanceRegistry;
     }
 
     @Override
@@ -52,7 +52,7 @@ public abstract class AbstractEasyRpcServerHandler<T> extends SimpleChannelInbou
     protected EasyRpcResponse doInvoke(EasyRpcRequest request) {
         EasyRpcResponse response = new EasyRpcResponse();
         response.setRequestId(request.getRequestId());
-        Object serviceProvider = serviceProviderRegistry.getServiceProvider(request.getClassName());
+        Object serviceProvider = serviceProviderInstanceRegistry.getServiceProvider(request.getClassName());
         if (Objects.isNull(serviceProvider)) {
             response.setError(new EasyRpcException("service provider not found"));
             return response;

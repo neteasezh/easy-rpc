@@ -10,7 +10,7 @@
     <artifactId>easy-rpc-spring-boot-starter-client</artifactId>
     <packaging>jar</packaging>
 
-    <name>easy-rpc-spring-boot-starter-example</name>
+    <name>easy-rpc-spring-boot-starter-client</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -28,5 +28,7 @@
             <artifactId>easy-rpc-spring-boot-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+
     </dependencies>
 </project>

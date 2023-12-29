@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: easy-rpc-spring-boot-starter-client
+
+server:
+  port: 8081
+
+easy-rpc:
+  enable-server: false
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    healthcheck:
+      enabled: false
+    serviceUrl:
+      defaultZone: http://10.170.164.16:8082/eureka/

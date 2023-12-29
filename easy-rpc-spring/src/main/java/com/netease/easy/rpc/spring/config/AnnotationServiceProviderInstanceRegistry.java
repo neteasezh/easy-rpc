@@ -2,7 +2,7 @@ package com.netease.easy.rpc.spring.config;
 
 import com.netease.easy.rpc.core.annotation.EasyRpcProvider;
 import com.netease.easy.rpc.core.exception.EasyRpcException;
-import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderRegistry;
+import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderInstanceRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @author zhuhai
  * @date 2023/12/26
  */
-public class AnnotationServiceProviderRegistry extends ServiceProviderRegistry implements ApplicationContextAware {
+public class AnnotationServiceProviderInstanceRegistry extends ServiceProviderInstanceRegistry implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

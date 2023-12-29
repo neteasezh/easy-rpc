@@ -1,8 +1,8 @@
-package com.netease.core.util;
+package com.netease.easy.rpc.core.util;
 
 import com.caucho.hessian.io.HessianInput;
 import com.caucho.hessian.io.HessianOutput;
-import com.netease.core.exception.EasyRpcException;
+import com.netease.easy.rpc.core.exception.EasyRpcException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 

@@ -1,4 +1,4 @@
-package com.netease.core.util;
+package com.netease.easy.rpc.core.util;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

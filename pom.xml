@@ -3,23 +3,84 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.netease</groupId>
-  <artifactId>EasyRPC</artifactId>
+  <artifactId>easy-rpc</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
-  <name>EasyRPC</name>
+  <name>easy-rpc</name>
   <url>http://maven.apache.org</url>
+  <modules>
+    <module>easy-rpc-core</module>
+    <module>easy-rpc-spring</module>
+    <module>easy-rpc-spring-boot-starter</module>
+    <module>easy-rpc-spring-boot-starter-client</module>
+    <module>easy-rpc-spring-boot-starter-server</module>
+    <module>easy-rpc-eureka-spring-boot-starter</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <hessian.version>4.0.66</hessian.version>
+    <slf4j-api.version>1.7.12</slf4j-api.version>
+    <netty-all.version>4.1.63.Final</netty-all.version>
+    <spring.version>5.0.8.RELEASE</spring.version>
+    <hessian.version>4.0.66</hessian.version>
+    <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
+    <fastjson.version>1.2.58.sec10</fastjson.version>
+    <logback.version>1.1.3</logback.version>
+    <dom4j.version>1.6.1</dom4j.version>
   </properties>
+
+  <developers>
+    <developer>
+      <id>easy-rpc</id>
+      <name>zhuhai</name>
+      <email>142254131@qq.com</email>
+      <url>https://github.com/easy-rpc</url>
+    </developer>
+  </developers>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j-api.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>

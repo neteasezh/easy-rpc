@@ -1,6 +1,6 @@
-package com.netease.core.bean;
+package com.netease.easy.rpc.core.bean;
 
-import com.netease.core.enums.FutureState;
+import com.netease.easy.rpc.core.enums.FutureState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.concurrent.ExecutionException;

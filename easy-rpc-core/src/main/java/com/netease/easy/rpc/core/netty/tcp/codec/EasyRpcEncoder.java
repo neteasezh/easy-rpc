@@ -1,4 +1,4 @@
-package com.netease.easy.rpc.core.netty.codec;
+package com.netease.easy.rpc.core.netty.tcp.codec;
 
 import com.netease.easy.rpc.core.util.HessianSerializerUtil;
 import io.netty.buffer.ByteBuf;

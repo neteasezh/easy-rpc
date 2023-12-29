@@ -1,22 +1,24 @@
-package com.netease.core.proxy;
+package com.netease.easy.rpc.core.proxy;
 
-import com.netease.core.annotation.EasyRpcApi;
-import com.netease.core.bean.EasyRpcConstants;
-import com.netease.core.bean.EasyRpcRequest;
-import com.netease.core.bean.EasyRpcResponse;
-import com.netease.core.config.RegistryConfig;
-import com.netease.core.enums.LoadBalanceEnum;
-import com.netease.core.exception.EasyRpcException;
-import com.netease.core.netty.pool.EasyRpcClientPool;
-import com.netease.core.util.CollectionUtils;
-import com.netease.core.util.StringUtils;
+import com.netease.easy.rpc.core.annotation.EasyRpcApi;
+import com.netease.easy.rpc.core.enums.ProtocolEnum;
+import com.netease.easy.rpc.core.util.EasyRpcConstants;
+import com.netease.easy.rpc.core.bean.EasyRpcRequest;
+import com.netease.easy.rpc.core.bean.EasyRpcResponse;
+import com.netease.easy.rpc.core.config.RegistryConfig;
+import com.netease.easy.rpc.core.enums.LoadBalanceEnum;
+import com.netease.easy.rpc.core.exception.EasyRpcException;
+import com.netease.easy.rpc.core.netty.tcp.pool.EasyRpcClientPool;
+import com.netease.easy.rpc.core.util.CollectionUtils;
+import com.netease.easy.rpc.core.util.LRUCache;
+import com.netease.easy.rpc.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -25,9 +27,31 @@ import java.util.stream.Collectors;
  */
 public class EasyRpcInvoker {
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyRpcInvoker.class);
-    private Map<Class<?>, Object> proxyCache = new ConcurrentHashMap<>();
+    private static final Integer PROXY_CACHE_SIZE = 1000;
+
+    /**
+     * 代理对象缓存
+     */
+    private Map<Class<?>, Object> proxyCache = new LRUCache<>(PROXY_CACHE_SIZE);
+
+    /**
+     * 客户端连接池
+     */
     private EasyRpcClientPool pool;
+
+    /**
+     * 注册中心配置
+     */
     private List<RegistryConfig> registries;
+
+    public EasyRpcInvoker() {
+        this.pool = new EasyRpcClientPool();
+    }
+
+    public EasyRpcInvoker(EasyRpcClientPool pool, List<RegistryConfig> registries) {
+        this.pool = pool;
+        this.registries = registries;
+    }
 
     /**
      * 获取代理对象
@@ -70,13 +94,16 @@ public class EasyRpcInvoker {
         this.registries = registries;
     }
 
+    /**
+     * 代理对象调用处理器
+     */
     class EasyRpcInvocationHandler implements InvocationHandler {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             EasyRpcApi annotation = method.getAnnotation(EasyRpcApi.class);
             if (Objects.isNull(annotation)) {
-                throw new EasyRpcException("method must be annotated by EasyRpcApi");
+                throw new EasyRpcException("method of proxy object must be annotated by @EasyRpcApi");
             }
 
             // 请求配置
@@ -86,24 +113,15 @@ public class EasyRpcInvoker {
             int timeout = annotation.timeout();
             LoadBalanceEnum lb = annotation.lb();
             String provider = annotation.provider();
+            ProtocolEnum protocol = annotation.protocol();
 
             // 基础校验
-            if (StringUtils.isAllEmpty(appName, host)) {
-                throw new EasyRpcException("appName or address(host+port) must be set");
-            }
-            if (StringUtils.isBlank(provider)) {
-                throw new EasyRpcException("provider class name must be set");
-            }
-
-            // 根据appName进行LB
-            if (StringUtils.isBlank(host) && CollectionUtils.isEmpty(registries)) {
-                throw new EasyRpcException("(host/port) or (appName/registries) must be set");
-            }
+            validate(appName, host, provider);
 
             // 路由选择
             if (StringUtils.isBlank(host)) {
                 Map<String, List<RegistryConfig>> map = registries.stream().collect(Collectors.groupingBy(RegistryConfig::getAppName));
-                List<RegistryConfig> registryConfigs = map.get(appName);
+                List<RegistryConfig> registryConfigs = map.get(appName.toUpperCase());
                 if (CollectionUtils.isEmpty(registryConfigs)) {
                     throw new EasyRpcException("no registry config for appName:" + appName);
                 }
@@ -127,7 +145,19 @@ public class EasyRpcInvoker {
             EasyRpcRequest request = buildRequest(args, provider, methodName, parameterTypes);
 
             // 发送请求
-            return doRequest(host, port, timeout, request);
+            return doRequest(host, port, timeout, request, protocol);
+        }
+
+        private void validate(String appName, String host, String provider) {
+            if (StringUtils.isAllEmpty(appName, host)) {
+                throw new EasyRpcException("(appName/registries) or (host+port) must be set");
+            }
+            if (StringUtils.isBlank(provider)) {
+                throw new EasyRpcException("service provider class name must be set");
+            }
+            if (StringUtils.isBlank(host) && CollectionUtils.isEmpty(registries)) {
+                throw new EasyRpcException("appName/registries must be set");
+            }
         }
 
         /**
@@ -162,11 +192,12 @@ public class EasyRpcInvoker {
          * @return
          */
         private Object doRequest(String host, int port,
-                                 int timeout, EasyRpcRequest request) {
+                                 int timeout, EasyRpcRequest request,
+                                 ProtocolEnum protocol) {
             try {
-                EasyRpcResponse response = pool.sendRequest(host, port, timeout, request);
+                EasyRpcResponse response = pool.sendRequest(host, port, timeout, protocol, request);
                 if (Objects.isNull(response) || Objects.nonNull(response.getError())) {
-                    LOGGER.error("request error, request:{}", request);
+                    LOGGER.error("response error, error:{}", response.getError());
                     return null;
                 }
                 return response.getResult();

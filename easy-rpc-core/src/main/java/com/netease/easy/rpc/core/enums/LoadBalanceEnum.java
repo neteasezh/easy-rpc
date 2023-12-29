@@ -1,8 +1,8 @@
-package com.netease.core.enums;
+package com.netease.easy.rpc.core.enums;
 
-import com.netease.core.lb.LoadBalanceStrategy;
-import com.netease.core.lb.impl.RandomLoadBalanceStrategy;
-import com.netease.core.lb.impl.RoundRobinLoadBalanceStrategy;
+import com.netease.easy.rpc.core.lb.LoadBalanceStrategy;
+import com.netease.easy.rpc.core.lb.impl.RandomLoadBalanceStrategy;
+import com.netease.easy.rpc.core.lb.impl.RoundRobinLoadBalanceStrategy;
 
 /**
  * @author zhuhai

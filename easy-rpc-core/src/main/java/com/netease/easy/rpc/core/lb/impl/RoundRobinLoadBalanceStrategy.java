@@ -1,8 +1,9 @@
-package com.netease.core.lb.impl;
+package com.netease.easy.rpc.core.lb.impl;
 
-import com.netease.core.config.RegistryConfig;
-import com.netease.core.exception.EasyRpcException;
-import com.netease.core.lb.LoadBalanceStrategy;
+import com.netease.easy.rpc.core.config.RegistryConfig;
+import com.netease.easy.rpc.core.exception.EasyRpcException;
+import com.netease.easy.rpc.core.lb.LoadBalanceStrategy;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

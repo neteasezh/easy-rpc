@@ -1,4 +1,4 @@
-package com.netease.easy.rpc.core.netty.manage.registries;
+package com.netease.easy.rpc.core.netty.tcp.manage.registries;
 
 import com.netease.easy.rpc.core.util.EasyRpcConstants;
 import com.netease.easy.rpc.core.bean.EasyRpcResponseFuture;

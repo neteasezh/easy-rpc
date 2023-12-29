@@ -1,6 +1,6 @@
-package com.netease.spring.bean;
+package com.netease.easy.rpc.spring.bean;
 
-import com.netease.core.proxy.EasyRpcInvoker;
+import com.netease.easy.rpc.core.proxy.EasyRpcInvoker;
 import org.springframework.beans.factory.FactoryBean;
 
 /**

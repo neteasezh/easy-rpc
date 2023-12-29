@@ -1,4 +1,4 @@
-package com.netease.core.exception;
+package com.netease.easy.rpc.core.exception;
 
 /**
  * @author zhuhai

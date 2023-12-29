@@ -1,6 +1,12 @@
-package com.netease;/**
- * @author  zhuhai
- * @date  2023/12/25
+package com.netease;
+
+import com.netease.easy.rpc.core.annotation.EasyRpcApi;
+
+/**
+ * @author zhuhai
+ * @date 2023/12/25
  */
-public class HelloService {
+public interface HelloService {
+    @EasyRpcApi(host = "localhost", port = 8888, provider = "com.netease.HelloServiceImpl")
+    String sayHello(String name);
 }

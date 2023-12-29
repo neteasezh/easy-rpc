@@ -1,53 +1,36 @@
-package com.netease.easy.rpc.core.netty.client;
+package com.netease.easy.rpc.core.netty.tcp.client;
 
 import com.netease.easy.rpc.core.bean.EasyRpcRequest;
 import com.netease.easy.rpc.core.bean.EasyRpcResponse;
 import com.netease.easy.rpc.core.bean.EasyRpcResponseFuture;
 import com.netease.easy.rpc.core.config.EasyRpcProperties;
-import com.netease.easy.rpc.core.netty.manage.registries.EasyRpcResponseFutureRegistry;
+import com.netease.easy.rpc.core.netty.base.AbstractEasyRpcClient;
+import com.netease.easy.rpc.core.netty.tcp.manage.registries.EasyRpcResponseFutureRegistry;
 import com.netease.easy.rpc.core.exception.EasyRpcException;
-import com.netease.easy.rpc.core.netty.codec.EasyRpcDecoder;
-import com.netease.easy.rpc.core.netty.codec.EasyRpcEncoder;
+import com.netease.easy.rpc.core.netty.tcp.codec.EasyRpcDecoder;
+import com.netease.easy.rpc.core.netty.tcp.codec.EasyRpcEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhuhai
  * @date 2023/12/19
  */
-public class EasyRpcClient {
+public class EasyRpcClient extends AbstractEasyRpcClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(EasyRpcClient.class);
-    private NioEventLoopGroup eventLoopGroup;
-    private Channel channel;
-    private EasyRpcProperties properties;
 
     public EasyRpcClient() {
-        this.properties = new EasyRpcProperties();
+        super(new EasyRpcProperties());
     }
 
     public EasyRpcClient(EasyRpcProperties properties) {
-        this.properties = properties;
-    }
-
-    /**
-     * 初始化eventLoopGroup
-     */
-    private void initEventLoopGroup() {
-        if (eventLoopGroup == null) {
-            synchronized (EasyRpcClient.class) {
-                if (eventLoopGroup == null) {
-                    eventLoopGroup = new NioEventLoopGroup();
-                }
-            }
-        }
+        super(properties);
     }
 
 
@@ -58,7 +41,8 @@ public class EasyRpcClient {
      * @param port
      * @throws Exception
      */
-    public void open(String host, int port) throws Exception {
+    @Override
+    public void open(String host, int port) {
         initEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap()
@@ -90,12 +74,13 @@ public class EasyRpcClient {
 
     /**
      * 发送请求
-     *
      * @param request
      * @param timeout
+
      * @return
      */
-    public EasyRpcResponse sendRequest(EasyRpcRequest request, long timeout) {
+    @Override
+    public EasyRpcResponse sendRequest(EasyRpcRequest request, Long timeout) {
         String requestId = request.getRequestId();
         EasyRpcResponseFuture responseFuture = new EasyRpcResponseFuture(request);
         EasyRpcResponseFutureRegistry.addResponseFuture(requestId, responseFuture);
@@ -111,43 +96,5 @@ public class EasyRpcClient {
         } finally {
             EasyRpcResponseFutureRegistry.removeResponseFuture(requestId);
         }
-    }
-
-
-    /**
-     * 判断连接是否有效
-     *
-     * @return
-     */
-    public boolean isActive() {
-        return Objects.nonNull(channel) && channel.isActive();
-    }
-
-    /**
-     * 关闭连接
-     */
-    public void close() {
-        if (Objects.nonNull(channel) && channel.isActive()) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("ready to close channel:{}", channel.id());
-            }
-            channel.close();
-        }
-        if (Objects.nonNull(eventLoopGroup)) {
-            eventLoopGroup.shutdownGracefully();
-        }
-    }
-
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public EasyRpcProperties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(EasyRpcProperties properties) {
-        this.properties = properties;
     }
 }

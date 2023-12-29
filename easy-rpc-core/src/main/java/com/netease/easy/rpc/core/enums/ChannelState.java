@@ -1,15 +1,29 @@
-package com.netease.core.enums;
+package com.netease.easy.rpc.core.enums;
 
 public enum ChannelState {
-	/** 未初始化状态 **/
-	UNINIT(0),
-	/** 初始化完成 **/
+	/**
+	 * 未初始化状态
+	 */
+	UN_INIT(0),
+
+	/**
+	 * 初始化完成
+	 */
 	INIT(1),
-	/** 存活可用状态 **/
+
+	/**
+	 * 可用状态
+	 */
 	ALIVE(2),
-	/** 不存活可用状态 **/
-	UNALIVE(3),
-	/** 关闭状态 **/
+
+	/**
+	 * 不可用状态
+	 */
+	UN_ALIVE(3),
+
+	/**
+	 * 关闭状态
+	 */
 	CLOSE(4);
 
 	public final int value;
@@ -23,7 +37,7 @@ public enum ChannelState {
 	}
 	
 	public boolean isUnAliveState() {
-		return this == UNALIVE;
+		return this == UN_ALIVE;
 	}
 
 	public boolean isCloseState() {
@@ -35,6 +49,6 @@ public enum ChannelState {
 	}
 	
 	public boolean isUnInitState() {
-		return this == UNINIT;
+		return this == UN_INIT;
 	}
 }

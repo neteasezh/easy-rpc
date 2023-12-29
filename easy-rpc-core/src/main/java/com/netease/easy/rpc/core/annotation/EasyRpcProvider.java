@@ -1,4 +1,4 @@
-package com.netease.core.annotation;
+package com.netease.easy.rpc.core.annotation;
 
 import java.lang.annotation.*;
 

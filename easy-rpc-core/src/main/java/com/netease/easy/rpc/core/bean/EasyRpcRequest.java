@@ -1,4 +1,4 @@
-package com.netease.core.bean;
+package com.netease.easy.rpc.core.bean;
 
 import java.io.Serializable;
 import java.util.Arrays;

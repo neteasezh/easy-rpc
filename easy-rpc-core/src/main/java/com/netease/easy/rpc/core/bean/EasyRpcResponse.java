@@ -1,4 +1,4 @@
-package com.netease.core.bean;
+package com.netease.easy.rpc.core.bean;
 
 import java.io.Serializable;
 
@@ -35,5 +35,14 @@ public class EasyRpcResponse implements Serializable {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "EasyRpcResponse{" +
+                "requestId='" + requestId + '\'' +
+                ", error=" + error +
+                ", result=" + result +
+                '}';
     }
 }

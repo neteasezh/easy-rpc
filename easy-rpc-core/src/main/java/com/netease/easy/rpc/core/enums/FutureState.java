@@ -1,4 +1,4 @@
-package com.netease.core.enums;
+package com.netease.easy.rpc.core.enums;
 
 /**
  * @author zhuhai

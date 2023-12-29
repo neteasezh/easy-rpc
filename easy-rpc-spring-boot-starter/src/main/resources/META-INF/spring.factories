@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.youzan.httpfetch.autoconfigure.HttpFetchAutoConfiguration
+  com.netease.easy.rpc.autoconfigure.EasyRpcAutoConfiguration

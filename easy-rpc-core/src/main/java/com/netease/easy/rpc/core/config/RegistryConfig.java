@@ -1,6 +1,7 @@
-package com.netease.core.config;
+package com.netease.easy.rpc.core.config;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author zhuhai
@@ -35,6 +36,23 @@ public class RegistryConfig implements Serializable {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RegistryConfig that = (RegistryConfig) o;
+        return Objects.equals(appName, that.appName) && Objects.equals(host, that.host) && Objects.equals(port, that.port);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(appName, host, port);
     }
 
     @Override

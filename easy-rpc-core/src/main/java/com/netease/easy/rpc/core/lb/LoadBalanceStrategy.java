@@ -1,6 +1,7 @@
-package com.netease.core.lb;
+package com.netease.easy.rpc.core.lb;
 
-import com.netease.core.config.RegistryConfig;
+import com.netease.easy.rpc.core.config.RegistryConfig;
+
 import java.util.List;
 
 /**

@@ -1,9 +1,9 @@
-package com.netease.easy.rpc.core.netty;
+package com.netease.easy.rpc.core.netty.base;
 
 import com.netease.easy.rpc.core.config.EasyRpcProperties;
 import com.netease.easy.rpc.core.enums.ChannelState;
 import com.netease.easy.rpc.core.exception.EasyRpcException;
-import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderRegistry;
+import com.netease.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderInstanceRegistry;
 import com.netease.easy.rpc.core.netty.tcp.server.EasyRpcServer;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
@@ -27,23 +27,23 @@ public abstract class AbstractEasyRpcServer {
     protected ThreadPoolExecutor localMethodExecutor;
 
     protected EasyRpcProperties properties;
-    protected ServiceProviderRegistry serviceProviderRegistry;
+    protected ServiceProviderInstanceRegistry serviceProviderInstanceRegistry;
 
 
-    protected AbstractEasyRpcServer(ServiceProviderRegistry serviceProviderRegistry, EasyRpcProperties properties) {
-        this.serviceProviderRegistry = serviceProviderRegistry;
+    protected AbstractEasyRpcServer(ServiceProviderInstanceRegistry serviceProviderInstanceRegistry, EasyRpcProperties properties) {
+        this.serviceProviderInstanceRegistry = serviceProviderInstanceRegistry;
         this.properties = properties;
     }
 
     /**
      * 同步启动
      */
-    protected abstract void openSync();
+    public abstract void openSync();
 
     /**
      * 异步启动
      */
-    protected abstract void openAsync();
+    public abstract void openAsync();
 
 
     /**
@@ -181,7 +181,7 @@ public abstract class AbstractEasyRpcServer {
         this.localMethodExecutor = localMethodExecutor;
     }
 
-    public ServiceProviderRegistry getServiceProviderRegistry() {
-        return serviceProviderRegistry;
+    public ServiceProviderInstanceRegistry getServiceProviderRegistry() {
+        return serviceProviderInstanceRegistry;
     }
 }

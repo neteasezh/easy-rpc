@@ -1,6 +1,7 @@
-package com.netease.core.annotation;
+package com.netease.easy.rpc.core.annotation;
 
-import com.netease.core.enums.LoadBalanceEnum;
+import com.netease.easy.rpc.core.enums.LoadBalanceEnum;
+import com.netease.easy.rpc.core.enums.ProtocolEnum;
 import java.lang.annotation.*;
 
 /**
@@ -23,4 +24,6 @@ public @interface EasyRpcApi {
     LoadBalanceEnum lb() default LoadBalanceEnum.ROUND_ROBIN;
 
     String provider() default "";
+
+    ProtocolEnum protocol() default ProtocolEnum.TCP;
 }
