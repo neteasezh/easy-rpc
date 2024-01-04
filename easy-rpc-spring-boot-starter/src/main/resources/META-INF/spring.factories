@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.netease.easy.rpc.autoconfigure.EasyRpcAutoConfiguration
+  com.github.easy.rpc.autoconfigure.EasyRpcAutoConfiguration

@@ -7,34 +7,34 @@
 	    ">
 
     <!--基础配置-->
-    <bean id="easyRpcProperties" class="com.netease.easy.rpc.core.config.EasyRpcProperties">
+    <bean id="easyRpcProperties" class="com.github.easy.rpc.core.config.EasyRpcProperties">
         <property name="connectTimeout" value="1000"/>
         <property name="serverPort" value="9999"/>
     </bean>
 
     <!--netty客户端连接池-->
-    <bean id="easyRpcClientPool" class="com.netease.easy.rpc.core.netty.tcp.pool.EasyRpcClientPool">
+    <bean id="easyRpcClientPool" class="com.github.easy.rpc.core.netty.tcp.pool.EasyRpcClientPool">
         <constructor-arg index="0" ref="easyRpcProperties"/>
     </bean>
 
     <!--服务注册-->
-	<bean id = "serviceProviderInstanceRegistry" class="com.netease.easy.rpc.spring.config.AnnotationServiceProviderInstanceRegistry"/>
+	<bean id = "serviceProviderInstanceRegistry" class="com.github.easy.rpc.spring.config.AnnotationServiceProviderInstanceRegistry"/>
 
     <!--netty服务端-->
-    <bean id="easyRpcServer" class="com.netease.easy.rpc.core.netty.tcp.server.EasyRpcServer" init-method="init">
+    <bean id="easyRpcServer" class="com.github.easy.rpc.core.netty.tcp.server.EasyRpcServer" init-method="init">
         <constructor-arg index="0" ref="serviceProviderInstanceRegistry"/>
         <property name="properties" ref="easyRpcProperties"/>
     </bean>
 
 
-    <bean id="easyRpcInvoker" class="com.netease.easy.rpc.core.proxy.EasyRpcInvoker">
+    <bean id="easyRpcInvoker" class="com.github.easy.rpc.core.proxy.EasyRpcInvoker">
         <property name="pool" ref="easyRpcClientPool"/>
     </bean>
 
-    <bean class="com.netease.HelloServiceImpl"/>
+    <bean class="com.github.HelloServiceImpl"/>
 
-    <bean id="easyRpcScannerConfigure" class="com.netease.easy.rpc.spring.config.EasyRpcScannerConfigurer">
-        <property name="basePackage" value="com.netease,com.netease.rpc"/>
+    <bean id="easyRpcScannerConfigure" class="com.github.easy.rpc.spring.config.EasyRpcScannerConfigurer">
+        <property name="basePackage" value="com.github,com.github.rpc"/>
     </bean>
 
 </beans>
