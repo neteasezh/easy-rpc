@@ -15,7 +15,6 @@
     <module>easy-rpc-spring-boot-starter</module>
     <module>easy-rpc-spring-boot-starter-client</module>
     <module>easy-rpc-spring-boot-starter-server</module>
-    <module>easy-rpc-eureka-spring-boot-starter</module>
   </modules>
 
   <properties>
