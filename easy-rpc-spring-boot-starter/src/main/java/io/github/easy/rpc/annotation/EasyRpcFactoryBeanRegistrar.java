@@ -1,8 +1,8 @@
 package io.github.easy.rpc.annotation;
 
-import com.github.easy.rpc.core.exception.EasyRpcException;
-import com.github.easy.rpc.core.proxy.EasyRpcInvoker;
-import com.github.easy.rpc.spring.config.ClassPathEasyRpcScanner;
+import io.github.easy.rpc.core.exception.EasyRpcException;
+import io.github.easy.rpc.core.proxy.EasyRpcInvoker;
+import io.github.easy.rpc.spring.config.ClassPathEasyRpcScanner;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackages;

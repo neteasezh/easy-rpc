@@ -1,6 +1,7 @@
 package io.github.easy.rpc.client;
 
-import com.github.easy.rpc.core.annotation.EasyRpcApi;
+
+import io.github.easy.rpc.core.annotation.EasyRpcApi;
 
 /**
  * @author zhuhai

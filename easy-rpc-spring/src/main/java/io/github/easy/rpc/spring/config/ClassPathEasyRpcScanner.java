@@ -1,9 +1,9 @@
 package io.github.easy.rpc.spring.config;
 
-import com.github.easy.rpc.core.annotation.EasyRpcApi;
-import com.github.easy.rpc.core.annotation.EasyRpcProvider;
-import com.github.easy.rpc.core.exception.EasyRpcException;
-import com.github.easy.rpc.core.proxy.EasyRpcInvoker;
+import io.github.easy.rpc.core.annotation.EasyRpcApi;
+import io.github.easy.rpc.core.annotation.EasyRpcProvider;
+import io.github.easy.rpc.core.exception.EasyRpcException;
+import io.github.easy.rpc.core.proxy.EasyRpcInvoker;
 import io.github.easy.rpc.spring.bean.EasyRpcInvokerFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

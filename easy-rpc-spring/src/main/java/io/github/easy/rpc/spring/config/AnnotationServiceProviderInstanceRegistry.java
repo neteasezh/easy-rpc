@@ -1,8 +1,9 @@
 package io.github.easy.rpc.spring.config;
 
-import com.github.easy.rpc.core.annotation.EasyRpcProvider;
-import com.github.easy.rpc.core.exception.EasyRpcException;
-import com.github.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderInstanceRegistry;
+
+import io.github.easy.rpc.core.annotation.EasyRpcProvider;
+import io.github.easy.rpc.core.exception.EasyRpcException;
+import io.github.easy.rpc.core.netty.tcp.manage.registries.ServiceProviderInstanceRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

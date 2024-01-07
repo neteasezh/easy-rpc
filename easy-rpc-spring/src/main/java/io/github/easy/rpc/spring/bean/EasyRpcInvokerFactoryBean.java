@@ -1,6 +1,7 @@
 package io.github.easy.rpc.spring.bean;
 
-import com.github.easy.rpc.core.proxy.EasyRpcInvoker;
+
+import io.github.easy.rpc.core.proxy.EasyRpcInvoker;
 import org.springframework.beans.factory.FactoryBean;
 
 /**

@@ -1,6 +1,6 @@
 package io.github.easy.rpc;
 
-import com.github.easy.rpc.annotation.EasyRpcScan;
+import io.github.easy.rpc.annotation.EasyRpcScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

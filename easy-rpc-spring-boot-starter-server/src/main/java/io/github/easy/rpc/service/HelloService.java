@@ -1,6 +1,7 @@
 package io.github.easy.rpc.service;
 
-import com.github.easy.rpc.core.annotation.EasyRpcProvider;
+
+import io.github.easy.rpc.core.annotation.EasyRpcProvider;
 
 /**
  * @author zhuhai
