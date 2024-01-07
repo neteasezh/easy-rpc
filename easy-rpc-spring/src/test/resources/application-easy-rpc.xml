@@ -18,7 +18,7 @@
     </bean>
 
     <!--服务注册-->
-	<bean id = "serviceProviderInstanceRegistry" class="com.github.easy.rpc.spring.config.AnnotationServiceProviderInstanceRegistry"/>
+	<bean id = "serviceProviderInstanceRegistry" class="io.github.easy.rpc.spring.config.AnnotationServiceProviderInstanceRegistry"/>
 
     <!--netty服务端-->
     <bean id="easyRpcServer" class="com.github.easy.rpc.core.netty.tcp.server.EasyRpcServer" init-method="init">
@@ -31,9 +31,9 @@
         <property name="pool" ref="easyRpcClientPool"/>
     </bean>
 
-    <bean class="com.github.HelloServiceImpl"/>
+    <bean class="io.github.HelloServiceImpl"/>
 
-    <bean id="easyRpcScannerConfigure" class="com.github.easy.rpc.spring.config.EasyRpcScannerConfigurer">
+    <bean id="easyRpcScannerConfigure" class="io.github.easy.rpc.spring.config.EasyRpcScannerConfigurer">
         <property name="basePackage" value="com.github,com.github.rpc"/>
     </bean>
 
