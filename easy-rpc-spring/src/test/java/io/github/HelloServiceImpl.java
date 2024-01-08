@@ -1,7 +1,6 @@
 package io.github;
 
-import com.github.easy.rpc.core.annotation.EasyRpcProvider;
-
+import io.github.easy.rpc.core.annotation.EasyRpcProvider;
 import java.util.concurrent.TimeUnit;
 
 
